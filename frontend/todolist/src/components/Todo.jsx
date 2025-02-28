@@ -1,6 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getTodo } from '../api/todoapi'
 
 function Todo() {
+  const [todo , setTodo] = useState([])
+  const [newTodo , setNewTodo] = useState([])
+
+  useEffect(()=>{
+    fetchTodo();
+  },[])
+  const fetchTodo = async () =>{
+    try{
+
+      const data =  await getTodo();
+      console.log(data)
+      setTodo(data)
+    } catch(error){
+      console.error('Failed to fetch data')
+    }
+
+  }
   return (
     <>
     <section className="vh-100" >
@@ -39,33 +57,24 @@ function Todo() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Buy groceries for next week</td>
-                    <td>In progress</td>
-                    <td>
-                      <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-danger">Delete</button>
-                      <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-success ms-1">Finished</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Renew car insurance</td>
-                    <td>In progress</td>
-                    <td>
-                      <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-danger">Delete</button>
-                      <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-success ms-1">Finished</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Sign up for online course</td>
-                    <td>In progress</td>
-                    <td>
-                      <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-danger">Delete</button>
-                      <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-success ms-1">Finished</button>
-                    </td>
-                  </tr>
+                {
+                  todo.map((items)=>{
+                    return(
+
+                      <tr>
+                      <th scope="row">{items.id}</th>
+                      <td>{items.task}</td>
+                      <td>{items.status}</td>
+                      <td>
+                        <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-danger">Delete</button>
+                        <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-success ms-1">Finished</button>
+                      </td>
+                    </tr>
+                      )
+                  })
+                }
+
+                
                 </tbody>
               </table>
   

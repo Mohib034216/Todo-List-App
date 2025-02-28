@@ -4,6 +4,6 @@ from .models import TodoList
 # Register your models here.
 
 class TodoListAdmin(admin.ModelAdmin):
-    fields= ['name','status',]
+    fields= ['user','task','status',]
 
 admin.site.register(TodoList,TodoListAdmin)

@@ -1,17 +1,19 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 
 class TodoList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     STATUS_CHOICES = (
         ('pending','PENDING'),
         ('complete','COMPLETE'),
         )
-    name  = models.CharField(max_length=50,)
+    task  = models.CharField(max_length=50,)
     status  = models.CharField(max_length=10,choices=STATUS_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name 
+        return self.task 
