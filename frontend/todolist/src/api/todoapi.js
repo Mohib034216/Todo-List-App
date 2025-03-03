@@ -14,3 +14,16 @@ export const getTodo = async ()=>{
 
     }
 }
+export const setTodo = async (data)=>{
+    try {
+        const response = await axiosInstance.post('api/',{data});
+        // console.log(response)
+        return response.data
+        
+
+    } catch(error){
+        console.error("Error creating todo:", error);
+        throw error
+
+    }
+}

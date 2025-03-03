@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { getTodo } from '../api/todoapi'
+import { getTodo ,setTodo} from '../api/todoapi'
 
-function Todo() {
-  const [todo , setTodo] = useState([])
-  const [newTodo , setNewTodo] = useState([])
+
+const Todo = () => {
+  const [tasks, setTasks] = useState([
+  ]);
+  const [taskText, setTaskText] = useState("");
+
 
   useEffect(()=>{
     fetchTodo();
@@ -13,80 +16,75 @@ function Todo() {
 
       const data =  await getTodo();
       console.log(data)
-      setTodo(data)
+      setTasks(data)
     } catch(error){
       console.error('Failed to fetch data')
     }
 
   }
+
+
+  const addTask = async () => {
+    if (taskText.trim()) {
+      const response = await  setTodo({"task":taskText,"status":"pending"})
+      setTasks([...tasks, response]);
+      console.log(response)
+
+
+    }
+  };
+  
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  const markFinished = (id) => {
+    setTasks(
+      tasks.map((task) => (task.id === id ? { ...task, status: "complete" } : task))
+    );
+  };
+
   return (
-    <>
-    <section className="vh-100" >
-    <div className="container py-5 h-100">
-      <div className="row d-flex justify-content-center align-items-center h-100">
-        <div className="col col-lg-9 col-xl-7">
-          <div className="card rounded-3">
-            <div className="card-body p-4">
-  
-              <h4 className="text-center my-3 pb-3">To Do App</h4>
-  
-              <form className="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
-                <div className="col-12">
-                  <div data-mdb-input-init className="form-outline">
-                    <input type="text" id="form1" className="form-control" />
-                    <label className="form-label" for="form1">Enter a task here</label>
-                  </div>
-                </div>
-  
-                <div className="col-12">
-                  <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary">Save</button>
-                </div>
-  
-                <div className="col-12">
-                  <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-warning">Get tasks</button>
-                </div>
-              </form>
-  
-              <table className="table mb-4">
-                <thead>
-                  <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">Todo item</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {
-                  todo.map((items)=>{
-                    return(
-
-                      <tr>
-                      <th scope="row">{items.id}</th>
-                      <td>{items.task}</td>
-                      <td>{items.status}</td>
-                      <td>
-                        <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-danger">Delete</button>
-                        <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-success ms-1">Finished</button>
-                      </td>
-                    </tr>
-                      )
-                  })
-                }
-
-                
-                </tbody>
-              </table>
-  
-            </div>
-          </div>
+    <div className="app-container">
+      <div className="todo-container">
+        <h1 className="title">To Do App</h1>
+        <input
+          type="text"
+          value={taskText}
+          onChange={(e) => setTaskText(e.target.value)}
+          className="task-input"
+          placeholder="Enter a task here"
+        />
+        <div className="button-container">
+          <button onClick={addTask} className="save-button">Save</button>
+          <button className="get-tasks-button">Get tasks</button>
         </div>
+        <table className="todo-table">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Todo item</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tasks && tasks.map((task) => (
+              <tr >
+                <td>{task.id}</td>
+                <td>{task.task}</td>
+                <td>{task.status}</td>
+                <td className="action-buttons">
+                  <button onClick={() => deleteTask(task.id)} className="delete-button">Delete</button>
+                  <button onClick={() => markFinished(task.id)} className="finished-button">Finished</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
-  </section>
-      
-    </>
-  )
-}
+  );
+};
 
-export default Todo
+export default Todo;

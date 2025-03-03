@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 
 class TodoList(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     STATUS_CHOICES = (
         ('pending','PENDING'),
         ('complete','COMPLETE'),

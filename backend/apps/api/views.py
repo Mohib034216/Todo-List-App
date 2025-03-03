@@ -12,10 +12,10 @@ class TodoListView(APIView):
         return Response(serializer.data)
 
     def post(self , request):
-        serializer = TodoListSerializer(request)
-        if serializer.validate:
-            serializer.save()
-
-        return Response(serializer.data)
+        print(f"POST REQUEST CHALA{request.data['data']}")
+        serializer = TodoListSerializer(data=request.data['data'])
+        if serializer.is_valid(raise_exception=True):
+            response = serializer.save()
+        return Response(TodoListSerializer(response).data)
 
 
