@@ -27,3 +27,27 @@ export const setTodo = async (data)=>{
 
     }
 }
+export const removeTodo = async (key)=>{
+    try {
+        const response = await axiosInstance.delete(`api/task/${key}/`);
+        return response.data
+        
+
+    } catch(error){
+        console.error("Error creating todo:", error);
+        throw error
+
+    }
+}
+export const updateTodo = async (key,data)=>{
+    try {
+        const response = await axiosInstance.put(`api/task/${key}/`,data);
+        return response.data
+        
+
+    } catch(error){
+        console.error("Error creating todo:", error);
+        throw error
+
+    }
+}

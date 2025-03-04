@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getTodo ,setTodo} from '../api/todoapi'
+import { getTodo ,setTodo, removeTodo, updateTodo} from '../api/todoapi'
 
 
 const Todo = () => {
@@ -34,13 +34,18 @@ const Todo = () => {
     }
   };
   
-  const deleteTask = (id) => {
+  const deleteTask = async (id) => {
+    const response = await removeTodo(id)
+    alert(response.message);
+    console.log(response.message);
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  const markFinished = (id) => {
+  const markFinished = async (id) => {
+    const response = await updateTodo(id,{status:"complete"})
+    alert(response.message);
     setTasks(
-      tasks.map((task) => (task.id === id ? { ...task, status: "complete" } : task))
+    tasks.map((task) => (task.id === id ? { ...task, status: "complete" } : task))
     );
   };
 
@@ -57,8 +62,7 @@ const Todo = () => {
         />
         <div className="button-container">
           <button onClick={addTask} className="save-button">Save</button>
-          <button className="get-tasks-button">Get tasks</button>
-        </div>
+         </div>
         <table className="todo-table">
           <thead>
             <tr>
