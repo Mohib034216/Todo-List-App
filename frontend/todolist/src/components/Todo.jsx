@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getTodo ,setTodo, removeTodo, updateTodo} from '../api/todoapi'
 
-
 const Todo = () => {
   const [tasks, setTasks] = useState([
   ]);
@@ -50,6 +49,7 @@ const Todo = () => {
   };
 
   return (
+    <>
     <div className="app-container">
       <div className="todo-container">
         <h1 className="title">To Do App</h1>
@@ -88,6 +88,8 @@ const Todo = () => {
         </table>
       </div>
     </div>
+    </>
+
   );
 };
 
