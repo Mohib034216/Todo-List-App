@@ -10,11 +10,17 @@ class TodoListSerializer(serializers.ModelSerializer):
         fields = ['id','task','status']
          
 
-
     def create(self,validated_data):
-        todo = TodoList.objects.create(**validated_data
-    
-
-            )
+        todo = TodoList.objects.create(**validated_data)
         return todo
+
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =  User
+        # fields = "__all__"
+        exclude = ['username','password']
+           
+    # def create(self,validated_data):
+    #     todo = TodoList.objects.create(**validated_data)
+    #     return todo
         

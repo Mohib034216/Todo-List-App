@@ -51,3 +51,42 @@ export const updateTodo = async (key,data)=>{
 
     }
 }
+
+export const Users  =  async (key, data) => {
+
+    try{
+        const response = axiosInstance.get('api/user/',data)
+        console.log(response)
+        return response
+
+    }
+    catch(error){
+        console.error("Error Something wrong", error)
+        throw error
+    }
+}
+export const Login  =  async (key, data) => {
+
+    try{
+        const response = axiosInstance.post('api/',data)
+        return response.data
+
+    }
+    catch(error){
+        console.error("Error Something wrong", error)
+        throw error
+    }
+}
+
+export const Logout  =  async (key, data) => {
+
+    try{
+        const response = axiosInstance.post('api/',data)
+        return response.data
+
+    }
+    catch(error){
+        console.error("Error Something wrong", error)
+        throw error
+    }
+}

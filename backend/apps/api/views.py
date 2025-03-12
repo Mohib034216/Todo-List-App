@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import TodoList
-from  .serializers import TodoListSerializer
+from django.contrib.auth.models import User
+from  .serializers import TodoListSerializer, UserListSerializer
 # Create your views here.
 
 class TodoListView(APIView):
@@ -39,3 +40,16 @@ class TodoListDetailView(APIView):
         task = get_object_or_404(TodoList, id=pk)
         task.delete()
         return Response({"message":"Task Sucessfully Remove"})
+
+
+class UserListView(APIView):
+        
+    def get(self, request):
+        Userlist = User.objects.all()
+        print(Userlist)
+        serializer = UserListSerializer(Userlist,many=True)
+        return Response({"message":"Fetched Data","data":serializer.data})
+
+class UserDetailView(APIView):
+    def post(self,request):
+        return render({"message":"User Insertd"})

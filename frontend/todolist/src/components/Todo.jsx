@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { getTodo ,setTodo, removeTodo, updateTodo} from '../api/todoapi'
+import { getTodo ,setTodo, removeTodo, updateTodo, Users} from '../api/todoapi'
 
 const Todo = () => {
   const [tasks, setTasks] = useState([
   ]);
   const [taskText, setTaskText] = useState("");
+  const [users, setUsers] = useState("");
 
 
   useEffect(()=>{
     fetchTodo();
+    fetchUsers();
+    
   },[])
   const fetchTodo = async () =>{
     try{
@@ -20,6 +23,18 @@ const Todo = () => {
       console.error('Failed to fetch data')
     }
 
+  }
+  const fetchUsers = async () =>{
+    try{
+
+      const response =  await Users();
+      console.log(response.data.data)
+      setUsers(response.data.data)
+      
+    } catch(error){
+      console.error('Failed to fetch data')
+    }
+    
   }
 
 
