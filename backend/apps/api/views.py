@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
 from .models import TodoList
 from django.contrib.auth.models import User
-from  .serializers import TodoListSerializer, UserListSerializer
+from  .serializers import TodoListSerializer, UserListSerializer, LoginSerializer, SignupSerializer
 # Create your views here.
 
 class TodoListView(APIView):
@@ -49,7 +50,44 @@ class UserListView(APIView):
         print(Userlist)
         serializer = UserListSerializer(Userlist,many=True)
         return Response({"message":"Fetched Data","data":serializer.data})
+        
+    def post(self, request):
+        serialize = UserListSerializer(request)
+        if serialize.is_valid():
+            serialize.save()
+            return Response({"message":"Fetched Data","data":UserListSerializer(serialize,many=True).data})
+        
+        # serializer = UserListSerializer(Userlist,many=True)
+        return Response({"message":"Something went wrong"})
+
 
 class UserDetailView(APIView):
+    def get(self, request, pk):
+        Userlist = User.objects.get(pk=pk)
+        print(Userlist)
+        serializer = UserListSerializer(Userlist,many=True)
+        return Response({"message":"Fetched Data","data":serializer.data})
+
     def post(self,request):
         return render({"message":"User Insertd"})
+
+
+
+class UserLogin(APIView):
+    def post(self,request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user =  serializer.validated_data
+            print(user)
+            token, created = Token.objects.get_or_create(user=user)
+            return  Response({"message":"Login successfully !",'token':token.key})
+        return Response(serializer.errors)
+
+class UserSignup(APIView):
+    def post(self,request):
+        serializer = SignupSerializer(data=request.data)
+        if serializer.is_valid():
+            user =  serializer.save()
+            token, created = Token.objects.get_or_create(user=user)
+            return  Response({"message":"Account successfully Created ",'token':token.key})
+        return Response(serializer.errors)

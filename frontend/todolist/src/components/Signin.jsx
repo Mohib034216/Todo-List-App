@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import {UserSignin} from '../api/todoapi';
 
 
 function Signin() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Login attempted with:', { email, password });
+    console.log('Login attempted with:', { username, password });
+    const response  = await UserSignin({"username":username,"password":password})
+    alert(response.data.message)
     // Handle authentication here
   };
 
@@ -16,11 +19,11 @@ function Signin() {
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Email address</label>
+          <label>User name</label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>

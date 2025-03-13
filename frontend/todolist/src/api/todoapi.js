@@ -65,11 +65,23 @@ export const Users  =  async (key, data) => {
         throw error
     }
 }
-export const Login  =  async (key, data) => {
+export const UserSignup  =  async (data) => {
 
     try{
-        const response = axiosInstance.post('api/',data)
-        return response.data
+        const response = axiosInstance.post('api/registration/',data)
+        return response
+
+    }
+    catch(error){
+        console.error("Error Something wrong", error)
+        throw error
+    }
+}
+export const UserSignin  =  async (data) => {
+
+    try{
+        const response = axiosInstance.post('api/login/',data)
+        return response
 
     }
     catch(error){
@@ -78,7 +90,7 @@ export const Login  =  async (key, data) => {
     }
 }
 
-export const Logout  =  async (key, data) => {
+export const UserSignout  =  async (key, data) => {
 
     try{
         const response = axiosInstance.post('api/',data)
