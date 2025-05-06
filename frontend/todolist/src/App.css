@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -38,7 +38,7 @@
 }
 
 
-
+ */
 
 /* STYLING FOR TODO COMPONENT */
 
@@ -140,6 +140,7 @@
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-around;
   padding: 10px;
   background-color: #282c34;
   color: white;

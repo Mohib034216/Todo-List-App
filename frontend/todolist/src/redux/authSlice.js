@@ -25,6 +25,16 @@ export const UserSignup = createAsyncThunk('auth/register',async (data, thunkAPI
         thunkAPI.rejectWithValue(error.response.data);
     }
 }) 
+export const UserOtp = createAsyncThunk('auth/otp',async (data, thunkAPI) => {
+
+    try{
+        const response = await axios.post(`${BASE_URL}otp-verify/`,data);
+        return response.data
+    }
+    catch(error){
+        thunkAPI.rejectWithValue(error.response.data);
+    }
+}) 
 
 const authSlice = createSlice({
     name:'auth',
@@ -46,27 +56,39 @@ const authSlice = createSlice({
                 console.log(action.payload);
                 // state.user = action.payload;
                 state.user = action.payload;   
-                console.log(state.user.refresh) ;
+                // console.log(state.user.refresh) ;
                 localStorage.setItem('user',JSON.stringify(state.user))
              
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
-                console.log(action.payload);
+                // console.log(action.payload);
                 // state.user = action.payload;
                 state.error = action.payload;    
 
             })
             .addCase(UserSignup.fulfilled, (state, action) => {
                 state.loading = false;
-                console.log(action.payload);
+                state.user = action.payload
+                // console.log(action.payload);
+                localStorage.setItem('user',JSON.stringify(state.user))
                 alert(action.payload.message) ;
               
             })
             .addCase(UserSignup.rejected, (state, action) => {
                 state.loading = false;
-                console.log(action.payload);
                 state.error = action.payload;    
+
+            })
+            .addCase(UserOtp.fulfilled, (state, action) => {
+                state.loading = false;
+                alert(action.payload.message) ;
+              
+            })
+            .addCase(UserOtp.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+                alert(action.payload.message)    
 
             })
     }

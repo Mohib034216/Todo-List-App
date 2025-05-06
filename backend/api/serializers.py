@@ -77,6 +77,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self,validated):
         password = validated.pop('password')
+        print(validated)
         # confirm_password = validated.pop('confirmPassword')
 
         try:

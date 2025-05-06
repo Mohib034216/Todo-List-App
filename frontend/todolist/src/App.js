@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Todo from './components/Todo';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
+import OtpInput from './components/OtpInput';
 
 function App() {
   return (
@@ -15,24 +16,9 @@ function App() {
         <Route path="/" element={<Todo />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/verifying" element={<OtpInput />} />
       </Routes>
     </Router>
-      {/* <Header />
-      <Todo /> */}
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
     </div>
   );
 }

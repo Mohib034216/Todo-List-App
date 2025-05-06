@@ -41,10 +41,9 @@ function Signup() {
           const {confirmPassword,...dataToSend} = formData
           
           const response  = await dispatch(UserSignup(dataToSend))
-          // alert(response.data.message)
-          // Handle successful form submission (e.g., send data to the server)
-          // console.log('Form submitted successfully', dataToSend);
-          // Reset form
+          if (response){
+            window.location.href='/verifying'
+          }
           setFormData({
             username: '',
             email: '',

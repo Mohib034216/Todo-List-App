@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Header() {
   const user = JSON.parse(localStorage.getItem('user'));
-  console.log(user.user_email)
+  // console.log(user.user_email)
   return (
     <header className="header">
 
@@ -12,7 +12,7 @@ function Header() {
       
       <nav>
         <ul className="nav-links">
-          {user.access ? (
+          {user && user.access ? (
             <li>
               <p>{user.user_email}</p>
             </li>

@@ -77,6 +77,7 @@ class LoginView(APIView):
 class RegisterationView(APIView):
     def post(self,request):
         data = request.data
+        print(data)
         try:
             user = CustomUser.objects.get(email=data['email'])
         
@@ -102,7 +103,7 @@ class RegisterationView(APIView):
                 recipient_list = [data.get('email')]
                 send_simple_email(subject, message, recipient_list)
                 
-                return Response({"message":"Verify Email OTP Send"})
+                return Response({"email":user.email,"message":"Verify Email OTP Send"})
         return Response({"message":"Some is wrong!"})
 
 
@@ -111,6 +112,6 @@ class VerifyEmail(APIView):
         serializer = OTPVerificationSerializer(data=request.data)
         if serializer.is_valid():
             return Response({"message":"OTP Verifies Successfully."})
-        return Response(serializer.errors)
+        return Response({"message":"Invalid OTP","error":serializer.errors})
         
 
