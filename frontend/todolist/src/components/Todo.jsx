@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { getTodo ,setTodo, removeTodo, updateTodo, Users} from '../api/todoapi'
+// import { setTodo,  updateTodo} from '../api/todoapi'
+import {getTodo, addTodo, removeTodo, updateTodo}  from '../redux/todoSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
+
+console.log(localStorage.getItem('user') || "{}")
 const Todo = () => {
   const [tasks, setTasks] = useState([
   ]);
   const [taskText, setTaskText] = useState("");
   const [users, setUsers] = useState("");
+  const dispatch = useDispatch()
+  const {items} = useSelector((state) => (state.todo))
+  console.log(items)
 
 
   useEffect(()=>{
     fetchTodo();
-    fetchUsers();
+
     
   },[])
   const fetchTodo = async () =>{
     try{
 
-      const data =  await getTodo();
+      const data =  await dispatch(getTodo());
       console.log(data)
       setTasks(data)
     } catch(error){
@@ -24,24 +31,24 @@ const Todo = () => {
     }
 
   }
-  const fetchUsers = async () =>{
-    try{
+  // const fetchUsers = async () =>{
+  //   try{
 
-      const response =  await Users();
-      console.log(response.data.data)
-      setUsers(response.data.data)
+  //     const response =  await Users();
+  //     console.log(response.data.data)
+  //     setUsers(response.data.data)
       
-    } catch(error){
-      console.error('Failed to fetch data')
-    }
+  //   } catch(error){
+  //     console.error('Failed to fetch data')
+  //   }
     
-  }
+  // }
 
 
   const addTask = async () => {
     if (taskText.trim()) {
-      const response = await  setTodo({"task":taskText,"status":"pending"})
-      setTasks([...tasks, response]);
+      const response = await  dispatch(addTodo({"task":taskText,"status":"PENDING"}))
+      // setTasks([...tasks, response]);
       console.log(response)
 
 
@@ -49,18 +56,18 @@ const Todo = () => {
   };
   
   const deleteTask = async (id) => {
-    const response = await removeTodo(id)
-    alert(response.message);
-    console.log(response.message);
-    setTasks(tasks.filter((task) => task.id !== id));
+    const response = await dispatch(removeTodo(id))
+    // alert(response.message);
+    // console.log(response.message);
+    // setTasks(tasks.filter((task) => task.id !== id));
   };
 
   const markFinished = async (id) => {
-    const response = await updateTodo(id,{status:"complete"})
-    alert(response.message);
-    setTasks(
-    tasks.map((task) => (task.id === id ? { ...task, status: "complete" } : task))
-    );
+    const response = await dispatch(updateTodo({'id':id,status:"FINISHED"}))
+    // alert(response.message);
+    // setTasks(
+    // tasks.map((task) => (task.id === id ? { ...task, status: "complete" } : task))
+    // );
   };
 
   return (
@@ -88,7 +95,7 @@ const Todo = () => {
             </tr>
           </thead>
           <tbody>
-            {tasks && tasks.map((task) => (
+            {items && items.map((task) => (
               <tr >
                 <td>{task.id}</td>
                 <td>{task.task}</td>

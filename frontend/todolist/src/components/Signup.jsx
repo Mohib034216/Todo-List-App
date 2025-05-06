@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { UserSignup } from '../api/todoapi';
+import { UserSignup } from '../redux/authSlice';
+import {useDispatch} from 'react-redux'
 
 
 function Signup() {
@@ -9,6 +10,7 @@ function Signup() {
         password: '',
         confirmPassword: '',
       });
+      const dispatch = useDispatch()
     
       const [errors, setErrors] = useState({});
     
@@ -38,10 +40,10 @@ function Signup() {
         } else {
           const {confirmPassword,...dataToSend} = formData
           
-          const response  = await UserSignup(dataToSend)
-          alert(response.data.message)
+          const response  = await dispatch(UserSignup(dataToSend))
+          // alert(response.data.message)
           // Handle successful form submission (e.g., send data to the server)
-          console.log('Form submitted successfully', dataToSend);
+          // console.log('Form submitted successfully', dataToSend);
           // Reset form
           setFormData({
             username: '',

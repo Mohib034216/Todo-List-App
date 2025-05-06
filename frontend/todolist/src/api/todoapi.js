@@ -1,9 +1,12 @@
 import axios from "axios";
 import axiosInstance from "./axiosconfig"
+import { useSelector } from "react-redux";
 
+const user =  JSON.parse(localStorage.getItem('user'));
+console.log(user.user_email);
 export const getTodo = async ()=>{
     try {
-        const response = await axiosInstance.get('api/');
+        const response = await axiosInstance.get('/task/',{'email':user.user_email});
         // console.log(response)
         return response.data
         
@@ -16,7 +19,7 @@ export const getTodo = async ()=>{
 }
 export const setTodo = async (data)=>{
     try {
-        const response = await axiosInstance.post('api/',{data});
+        const response = await axiosInstance.post('api/task/',{data});
         // console.log(response)
         return response.data
         
@@ -52,53 +55,53 @@ export const updateTodo = async (key,data)=>{
     }
 }
 
-export const Users  =  async (key, data) => {
+// export const Users  =  async (key, data) => {
 
-    try{
-        const response = axiosInstance.get('api/user/',data)
-        console.log(response)
-        return response
+//     try{
+//         const response = axiosInstance.get('api/user/',data)
+//         console.log(response)
+//         return response
 
-    }
-    catch(error){
-        console.error("Error Something wrong", error)
-        throw error
-    }
-}
-export const UserSignup  =  async (data) => {
+//     }
+//     catch(error){
+//         console.error("Error Something wrong", error)
+//         throw error
+//     }
+// }
+// export const UserSignup  =  async (data) => {
 
-    try{
-        const response = axiosInstance.post('api/registration/',data)
-        return response
+//     try{
+//         const response = axiosInstance.post('api/registration/',data)
+//         return response
 
-    }
-    catch(error){
-        console.error("Error Something wrong", error)
-        throw error
-    }
-}
-export const UserSignin  =  async (data) => {
+//     }
+//     catch(error){
+//         console.error("Error Something wrong", error)
+//         throw error
+//     }
+// }
+// export const UserSignin  =  async (data) => {
 
-    try{
-        const response = axiosInstance.post('api/login/',data)
-        return response
+//     try{
+//         const response = axiosInstance.post('api/login/',data)
+//         return response
 
-    }
-    catch(error){
-        console.error("Error Something wrong", error)
-        throw error
-    }
-}
+//     }
+//     catch(error){
+//         console.error("Error Something wrong", error)
+//         throw error
+//     }
+// }
 
-export const UserSignout  =  async (key, data) => {
+// export const UserSignout  =  async (key, data) => {
 
-    try{
-        const response = axiosInstance.post('api/',data)
-        return response.data
+//     try{
+//         const response = axiosInstance.post('api/',data)
+//         return response.data
 
-    }
-    catch(error){
-        console.error("Error Something wrong", error)
-        throw error
-    }
-}
+//     }
+//     catch(error){
+//         console.error("Error Something wrong", error)
+//         throw error
+//     }
+// }

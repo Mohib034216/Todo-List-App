@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
-import {UserSignin} from '../api/todoapi';
+// import {UserSignin} from '../api/todoapi';
+import {useDispatch, useSelector} from 'react-redux';
+import { login } from '../redux/authSlice';
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 function Signin() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const dispatch  = useDispatch();
+  const navigate = useNavigate();
+  const {user} = useSelector((state) => state.auth)
+  console.log(user)
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Login attempted with:', { username, password });
-    const response  = await UserSignin({"username":username,"password":password})
-    alert(response.data.message)
+    console.log('Login attempted with:', { email, password });
+    const response  = await dispatch(login({"email":email,"password":password}))
+    // if (login.fulfilled.match(response)){
+    //   navigate('/');
+    // }
+    console.log(response)
+    if(response){
+      const user = localStorage.getItem('user') && localStorage.getItem('user')
+      console.log(user.refresh)
+    }
+
+    // alert(response.data)
     // Handle authentication here
   };
 
@@ -19,11 +36,11 @@ function Signin() {
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>User name</label>
+          <label>Email</label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
